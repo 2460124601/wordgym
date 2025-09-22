@@ -1,0 +1,363 @@
+        /* === Dialog 外觀 === */
+        .modal {
+            border: 0;
+            padding: 0;
+            background: transparent;
+
+            place-items: center;
+        }
+
+        textarea {
+            border: #000000 0.5px solid;
+            border-radius: 0px;
+        }
+
+        .modal::backdrop {
+            background: rgba(0, 0, 0, .35);
+        }
+
+        .modal-card {
+            width: min(720px, 92vw);
+            max-width: 720px;
+            max-height: 80vh;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+            display: flex;
+            margin-top: 60px;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .modal-body {
+            overflow: auto;
+            padding: 30px;
+            scrollbar-gutter: stable;
+        }
+
+        .modal-body::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, .25);
+            border-radius: 8px;
+            border: 2px solid #fff;
+        }
+
+        .modal-card>h3 {
+            margin: 16px 16px 10px;
+            font-size: clamp(18px, 2.2vw, 22px);
+            font-weight: 700;
+            letter-spacing: .2px;
+        }
+
+        #form-add-word {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+        }
+
+        #form-add-word label {
+            display: grid;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        #form-add-word .grid-2 {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        @media (max-width: 680px) {
+            #form-add-word .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        #form-add-word input,
+        #form-add-word textarea {
+            width: 100%;
+            box-sizing: border-box;
+            background: transparent;
+            color: var(--text);
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        #form-add-word textarea {
+            min-height: 86px;
+            resize: vertical;
+            line-height: 1.55;
+        }
+
+        #form-add-word input:focus,
+        #form-add-word textarea:focus {
+            border: var(--border);
+            box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 25%, transparent);
+        }
+
+        #form-add-word input:required:user-invalid {
+            border-color: var(--danger);
+            box-shadow: 0 0 0 3px color-mix(in oklab, var(--danger) 25%, transparent);
+        }
+
+        /*  capsule box */
+        #form-add-word .pillset {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        #form-add-word .pillset__ctrl {
+            position: absolute;
+            opacity: 0;
+            width: 1px;
+            height: 1px;
+            pointer-events: none;
+        }
+
+        #form-add-word .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 2px 10px;
+            font-size: 15px;
+            border-radius: 999px;
+            background: #f3f5f4;
+            color: var(--text);
+            cursor: pointer;
+            user-select: none;
+            transition: transform .05s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
+        }
+
+        #form-add-word .pill:hover {
+            transform: translateY(-1px);
+        }
+
+        #form-add-word .pillset__ctrl:checked+.pill {
+            background: color-mix(in oklab, var(--primary) 18%, white);
+            border: 0.5px solid black;
+            box-shadow: 0 0 0 3px color-mix(in oklab, var(--primary) 18%, transparent) inset;
+        }
+
+        #form-add-word .pillset__ctrl:focus+.pill {
+            outline: 2px solid color-mix(in oklab, var(--ring) 60%, transparent);
+            outline-offset: 2px;
+        }
+
+        /* 循環 */
+        #form-add-word .pill[data-c="1"] {
+            background: #CFE9BA;
+        }
+
+        #form-add-word .pill[data-c="2"] {
+            background: #F0D5BA;
+        }
+
+        #form-add-word .pill[data-c="3"] {
+            background: #BABEF0;
+        }
+
+        .modal-card .actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            align-items: center;
+            margin-top: 6px;
+            padding: 14px 16px;
+            border-top: 1px dashed var(--border);
+        }
+
+        .modal-card .actions .btn-ghost,
+        .modal-card .actions .btn-primary {
+            appearance: none;
+            border-radius: 999px;
+            padding: 2px 16px;
+            font-weight: 600;
+            letter-spacing: .2px;
+            cursor: pointer;
+            transition: transform .08s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
+        }
+
+        .modal-card .actions .btn-ghost {
+            background: transparent;
+            color: var(--text);
+        }
+
+        .modal-card .actions .btn-primary {
+            border: 1px solid color-mix(in oklab, var(--primary) 60%, black 0%);
+            box-shadow: 0 6px 16px color-mix(in oklab, var(--primary) 25%, transparent);
+        }
+
+        .modal-card .actions .btn-primary:hover {
+            filter: brightness(1.03);
+        }
+
+        .modal-card .actions .btn-primary:active {
+            background: var(--primary-press);
+        }
+
+        @media (max-width: 520px) {
+            .modal-card {
+                padding: 0;
+            }
+
+            .modal-card .actions {
+                flex-direction: row;
+
+                align-items: stretch;
+            }
+
+
+
+            #modal {
+                background-color: rgba(255, 255, 255, 0);
+            }
+
+            textarea {
+                resize: vertical;
+            }
+
+            .modal-body {
+                padding: 10px;
+            }
+        }
+
+        /* 讓編輯表單 (#form-edit-word) 與新增表單 (#form-add-word) 共用同一套樣式 */
+        #form-add-word,
+        #form-edit-word {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+        }
+
+        #form-add-word label,
+        #form-edit-word label {
+            display: grid;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        #form-add-word .grid-2,
+        #form-edit-word .grid-2 {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        @media (max-width: 680px) {
+
+            #form-add-word .grid-2,
+            #form-edit-word .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        #form-add-word input,
+        #form-add-word textarea,
+        #form-edit-word input,
+        #form-edit-word textarea {
+            width: 100%;
+            box-sizing: border-box;
+            background: transparent;
+            font-size: 15px;
+            outline: none;
+            transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+
+
+    padding: 10px 2px;
+    border: none;
+    border-bottom: 0.5px solid #48672F;
+    border-radius: 0;
+    color: #000;
+
+        }
+
+        #form-edit-word textarea {
+            min-height: 86px;
+            resize: vertical;
+            line-height: 1.55;
+        }
+
+        #form-edit-word input:focus,
+        #form-edit-word textarea:focus {
+            border-color: var(--ring);
+            box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 25%, transparent);
+        }
+
+        #form-edit-word input:required:user-invalid {
+            border-color: var(--danger);
+            box-shadow: 0 0 0 3px color-mix(in oklab, var(--danger) 25%, transparent);
+        }
+
+        /* 膠囊（詞性/分類） */
+        #form-add-word .pillset,
+        #form-edit-word .pillset {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        #form-add-word .pillset__ctrl,
+        #form-edit-word .pillset__ctrl {
+            position: absolute;
+            opacity: 0;
+            width: 1px;
+            height: 1px;
+            pointer-events: none;
+        }
+
+        #form-add-word .pill,
+        #form-edit-word .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 2px 10px;
+            font-size: 15px;
+            border-radius: 999px;
+            background: #f3f5f4;
+            color: var(--text);
+            cursor: pointer;
+            user-select: none;
+            margin: 4px 0px;
+            transition: transform .05s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
+        }
+
+        #form-add-word .pill:hover,
+        #form-edit-word .pill:hover {
+            transform: translateY(-1px);
+        }
+
+        #form-add-word .pillset__ctrl:checked+.pill,
+        #form-edit-word .pillset__ctrl:checked+.pill {
+            background: color-mix(in oklab, var(--primary) 18%, white);
+            border: 0.5px solid black;
+            box-shadow: 0 0 0 3px color-mix(in oklab, var(--primary) 18%, transparent) inset;
+        }
+
+        /* 循環色票 */
+        #form-add-word .pill[data-c="1"],
+        #form-edit-word .pill[data-c="1"] {
+            background: #CFE9BA;
+        }
+
+        #form-add-word .pill[data-c="2"],
+        #form-edit-word .pill[data-c="2"] {
+            background: #F0D5BA;
+        }
+
+        #form-add-word .pill[data-c="3"],
+        #form-edit-word .pill[data-c="3"] {
+            background: #BABEF0;
+        }

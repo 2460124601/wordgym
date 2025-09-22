@@ -1,0 +1,90 @@
+<h1>編輯單字：<%= @word["headword"] %></h1>
+
+<form id="form-edit-word" data-id="<%= @word["_id"] %>">
+  <label>單字
+    <input name="headword" value="<%= @word["headword"] %>" required>
+  </label>
+
+  <label>詞性（可多選）
+    <select name="pos" multiple size="6">
+      <% @pos_options.each do |p| %>
+        <option value="<%= p %>" <%= "selected" if Array(@word["pos"]).include?(p) %>><%= p %></option>
+      <% end %>
+    </select>
+  </label>
+
+  <label>解釋（中文）
+    <textarea name="definition_zh" rows="3"><%= @word["definition_zh"] || @word["definition"] %></textarea>
+  </label>
+
+  <label>Definition (English)
+    <textarea name="definition_en" rows="3"><%= @word["definition_en"] %></textarea>
+  </label>
+
+  <label>例句 1
+    <textarea name="example" rows="2"><%= @word["example"] %></textarea>
+  </label>
+
+  <label>例句 2
+    <textarea name="example2" rows="2"><%= @word["example2"] %></textarea>
+  </label>
+
+  <label>劍橋字典連結
+    <input name="cambridge_url" value="<%= @word["cambridge_url"] %>">
+  </label>
+
+  <label>
+    <input type="checkbox" name="remembered" <%= "checked" if @word["remembered"] %> >
+    標記為「已記住」
+  </label>
+
+  <div class="actions" style="margin-top:12px; display:flex; gap:8px;">
+    <button type="submit">儲存</button>
+    <a href="/words/<%= @word["_id"] %>" class="btn ghost">取消</a>
+    <button id="btn-delete" type="button" class="btn danger" style="margin-left:auto;">刪除</button>
+  </div>
+</form>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("form-edit-word");
+  const id = form.dataset.id;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    const payload = {
+      headword: fd.get("headword"),
+      pos: fd.getAll("pos"),
+      definition_zh: fd.get("definition_zh"),
+      definition_en: fd.get("definition_en"),
+      example: fd.get("example"),
+      example2: fd.get("example2"),
+      cambridge_url: fd.get("cambridge_url"),
+      remembered: fd.get("remembered") === "on"
+    };
+    const res = await fetch(`/api/words/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) {
+      const t = await res.text().catch(()=> "");
+      alert(`更新失敗：${res.status} ${t}`);
+      return;
+    }
+    location.href = `/words/${id}`;
+  });
+
+  document.getElementById("btn-delete").addEventListener("click", async () => {
+    if (!confirm("確定要刪除這個單字？")) return;
+    const res = await fetch(`/api/words/${id}`, { method: "DELETE" });
+    if (!res.ok) {
+      const t = await res.text().catch(()=> "");
+      alert(`刪除失敗：${res.status} ${t}`);
+      return;
+    }
+    location.href = "/";
+  });
+});
+</script>

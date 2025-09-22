@@ -1,0 +1,23 @@
+<link rel="stylesheet" href="/css/loginForm.css">
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-card-content">
+      <h2>註冊</h2>
+      <form method="post" action="/register">
+        <input name="email"  placeholder="Email">
+        <input name="password" type="password" placeholder="Password">
+        <input name="invite_code" placeholder="邀請碼（如需要）">
+        <div class="captcha-row">
+          <canvas id="captcha-canvas" width="110" height="36" style="border:1px solid #ccc;"></canvas>
+          <button type="button" id="captcha-refresh" class="captcha-refresh" aria-label="重載入" title="重載入">
+            <img src="/icons/reload.svg" alt="" class="icon-sock" width="20" height="20">
+          </button>
+          <input name="captcha" placeholder="請輸入驗證碼">
+        </div>
+        <button type="submit">註冊</button>
+      </form>
+    </div>
+  </div>
+</div>
+<script src="/js/drawCaptcha.js"></script>
+

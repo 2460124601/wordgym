@@ -1,0 +1,91 @@
+<h1>個人設定</h1>
+
+<% if params[:ok] == "1" %>
+  <p class="message">已更新基本資料</p>
+<% end %>
+<% if params[:pwd] == "1" %>
+  <p class="message">已更新密碼</p>
+<% end %>
+
+<div class="container">
+  <section class="card">
+    <h3>基本資料</h3>
+    <form method="post" action="/me">
+      <label>電子郵件（帳號）
+        <%# <input type="email" name="email" value="" required> %>
+        <p><%= @user['email'] %></p>
+      </label>
+
+      <label>名稱
+        <input type="text" name="name" value="<%= @user['name'].to_s %>" placeholder="顯示名稱">
+      </label>
+
+      <label>單字語系
+        <select name="word_lang" required>
+          <% @lang_options.each do |code, meta| %>
+            <option value="<%= code %>" <%= "selected" if (@user['word_lang'] || "en") == code %>>
+              <%= meta[:label] %> (<%= code %>)
+            </option>
+          <% end %>
+        </select>
+      </label>
+
+      <div>
+        <button type="submit">儲存</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="card">
+    <h3>變更密碼</h3>
+    <form method="post" action="/me/password">
+      <label>目前密碼
+        <input type="password" name="current_password" required>
+      </label>
+      <label>新密碼
+        <input type="password" name="new_password" required minlength="6">
+      </label>
+      <label>確認新密碼
+        <input type="password" name="new_password_confirmation" required minlength="6">
+      </label>
+      <div>
+        <button type="submit">更新密碼</button>
+      </div>
+    </form>
+  </section>
+</div>
+<style>
+button[type="submit"]{
+    padding: 4px 16px;
+    border: 0.5px solid black;
+    border-radius: 16px;
+    color: black;
+}
+button[type="submit"]:hover{
+    padding: 4px 16px;
+    border: 0.5px solid black;
+    color: white;
+    background-color: black;
+
+}
+label {
+  display: block;
+  margin-bottom: 20px;
+}
+
+input[type="password"],input[type="text"],input[type="email"] {
+  width: 100%; 
+  padding: 8px 0; 
+  border: none; 
+  border-bottom: 1px solid #474747ff; 
+  background-color: transparent;
+  font-size: 16px;
+  transition: border-bottom-color 0.3s; 
+  border-radius: 0px;
+}
+
+input[type="password"]:focus,input[type="text"]:focu,input[type="email"]:focus {
+  border-bottom-color: #000000ff;
+  outline: none;
+}
+</style>

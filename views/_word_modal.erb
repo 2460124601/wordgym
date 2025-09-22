@@ -1,0 +1,74 @@
+<% zh = (@word["definition_zh"] || @word["definition"] || "").to_s.strip %>
+
+<div class="word-card" data-id="<%= @word["_id"] %>" style="width:100%;border-radius:24px;border:none;box-shadow:none;">
+    <div style="padding:16px;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">
+        <h2 class="word-headword" style="margin:0;"><%= @word["headword"] %></h2>
+        <button class="toggle-remembered <%= 'is-remembered' if @word['remembered'] %>"
+        data-remembered="<%= @word['remembered'] %>"
+        type="button"
+        aria-pressed="<%= @word['remembered'] %>">
+        <% if @word['remembered'] %>
+        <img src="/icons/dobby_sock_full.svg" alt="" class="icon-sock" width="20" height="20" title="已熟悉" aria-label="已熟悉">
+        <% else %>
+        <img src="/icons/dobby_sock.svg" alt="" class="icon-sock icon-muted" width="20" height="20" title="不熟悉" aria-label="不熟悉">
+        <% end %>
+        </button>
+
+    </div>
+
+    <p style="margin:4px 0 10px 0;color:#555;">
+        <% if Array(@word["pos"]).any? %>
+        詞性：<%= Array(@word["pos"]).join(", ") %> |
+        <% end %>
+        <a href="<%= @word["cambridge_url"] %>" target="_blank" rel="noopener">辭典連結</a>
+    </p>
+
+    <% if zh != "" %>
+        <h3 style="margin:10px 0 6px;font-size:14px;">解釋</h3>
+        <p style="margin:0 0 10px;"><%= zh %></p>
+    <% end %>
+
+    <% if @word["definition_en"].to_s.strip != "" %>
+        <h3 style="margin:10px 0 6px;font-size:14px;">原文解釋</h3>
+        <p style="margin:0 0 10px;"><%= @word["definition_en"] %></p>
+    <% end %>
+
+    <% if @word["example"].to_s.strip != "" || @word["example2"].to_s.strip != "" %>
+        <h3 style="margin:10px 0 6px;font-size:14px;">例句</h3>
+        <ol style="margin:0 0 10px 20px;">
+        <% if @word["example"].to_s.strip != "" %><li><%= @word["example"] %></li><% end %>
+        <% if @word["example2"].to_s.strip != "" %><li><%= @word["example2"] %></li><% end %>
+        </ol>
+    <% end %>
+
+    <h3 style="margin:10px 0 6px;font-size:14px;">發音</h3>
+    <audio controls src="/tts/google?text=<%= ERB::Util.url_encode(@word["headword"]) %>&tl=en" style="width:100%;"></audio>
+
+<h3 style="margin:10px 0 6px;font-size:14px;">標籤</h3>
+<div class="wg-chips" style="display:flex;gap:8px;flex-wrap:wrap;margin:0 0 8px;">
+  <% if Array(@word_categories).any? %>
+    <% @word_categories.each_with_index do |c, i| %>
+      <span class="wg-chip wg-<%= 'c' + (((i)%3)+1).to_s %>"><%= c["name"] %></span>
+    <% end %>
+  <% else %>
+    <span style="color:#777;">（尚未設定）</span>
+  <% end %>
+</div>
+
+<%# 所有可用標籤（可多選勾選後「更新標籤」） %>
+<!--<div id="wm-cats" class="wg-cats" style="margin-bottom:8px;">-->
+  <%# selected_ids = Array(@word["category_ids"]).map(&:to_s) %>
+  <%# Array(@all_categories).each do |c| %>
+<!--    <label class="wg-catopt">-->
+<!--      <input type="checkbox" name="category_ids" value="<%#= c["_id"] %>"-->
+<!--             <%#= 'checked' if selected_ids.include?(c["_id"].to_s) %> >-->
+<!--      <span><%#= c["name"] %></span>-->
+<!--    </label>-->
+  <%# end %>
+<!--</div>-->
+<!--<button type="button" id="btn-save-word-tags" class="wg-btn wg-btn--primary">更新標籤</button>-->
+
+
+    </div>
+</div>

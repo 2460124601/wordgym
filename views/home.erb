@@ -1,0 +1,269 @@
+<h1>My Words</h1>
+<div class="fab-scrim" id="fab-scrim" hidden></div>
+
+<div class="filters" style="display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin:8px 0 4px;">
+  <button type="button" id="filters-toggle" class="filters-toggle" aria-expanded="false" title="展開篩選菜單" aria-label="展開篩選菜單">
+    <img src="/icons/filter.svg" alt="篩選" style="width:20px;height:20px;">
+  </button>
+
+  <div class="filters" style="display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin:8px 0 4px;">
+    <label>狀態
+      <select id="f-remembered">
+        <option value="">全部</option>
+        <option value="false">未記住</option>
+        <option value="true">已記住</option>
+      </select>
+    </label>
+
+<div id="initial-chips" style="display:flex; gap:6px; flex-wrap:wrap;width:100%;">
+  <% if user_word_lang == "ja" %>
+    <button type="button" class="chip is-active" data-v="">全部</button>
+    <% %w[あ か さ た な は ま や ら わ ん #].each do |row| %>
+      <button type="button" class="chip" data-v="<%= row %>"><%= row %></button>
+    <% end %>
+  <% else %>
+    <button type="button" class="chip is-active" data-v="">全部</button>
+    <% ("A".."Z").each do |ch| %>
+      <button type="button" class="chip" data-v="<%= ch %>"><%= ch %></button>
+    <% end %>
+    <button type="button" class="chip" data-v="#">#</button>
+  <% end %>
+</div>
+
+    <label>字首
+      <input id="f-starts" placeholder="hel..." style="width:140px;">
+    </label>
+
+    <!-- 詞性多選若未使用可保留註解
+    <label>詞性
+      <select id="f-pos" multiple size="1" style="min-width:160px;">
+        <% (@pos_options || POS_OPTIONS || []).each do |p| %>
+          <option value="<%= p %>"><%= p %></option>
+        <% end %>
+      </select>
+    </label>
+    -->
+
+    <label style="display:flex;align-items:center;gap:6px;">
+      <input type="checkbox" id="f-random">
+      隨機 50 筆
+    </label>
+
+    <!-- 類別 chips 與新增標籤 -->
+    <div class="wg-catbar">
+      <span class="wg-label">標籤：</span>
+      <div id="wg-cat-chips" class="wg-chips">
+        <% Array(@categories).each_with_index do |c, idx| %>
+          <button type="button"
+                  class="wg-chip wg-<%= 'c' + (((idx)%3)+1).to_s %>"
+                  data-id="<%= c["_id"].to_s %>" data-name="<%= c["name"] %>">
+            <span class="wg-chip__x" title="刪除" aria-label="刪除">×</span>
+            <span><%= c["name"] %></span>
+          </button>
+        <% end %>
+        <button type="button" id="wg-btn-cat-add" class="wg-chip wg-chip--add">新增＋</button>
+      </div>
+    </div>
+
+    <!-- 新增標籤 Modal -->
+<dialog id="wg-cat-modal" class="modal">
+  <div class="modal-card" style="padding:0px;">
+    <h3>新增標籤</h3>
+    <div class="modal-body">
+      <form id="wg-cat-form" style="justify-content: space-between;">
+        <label>標籤名稱
+          <input id="wg-cat-name" placeholder="例如：常用" required>
+        </label>
+        <div class="actions" style="display:flex;gap:8px;justify-content:flex-end;">
+        <button type="button" id="wg-cat-cancel" class="btn-ghost">取消</button>
+          <button type="submit" class="btn-primary">新增</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <style>
+  /* 共用輸入框樣式 */
+  .modal-body input {
+    width: 100%;
+    padding: 2px 16px;
+    border: none;
+    border-bottom: 1.5px solid #48672F;
+    border-radius: 0;
+    background: transparent;
+    color: #000;
+    font-family: 'Libre Baskerville', 'jf-lanyangming', serif;
+    outline: none;
+  }
+  .modal-body input::placeholder {
+    color: #666;
+  }
+  .modal-body input:focus {
+    border-bottom: 2px solid #2f4d1f;
+    box-shadow: none;
+  }
+
+  /* 按鈕風格（沿用 btn-primary / btn-ghost） */
+  .btn-primary {
+    background: #48672F;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+  .btn-ghost {
+    background: transparent;
+    color: #48672F;
+    border: 1px solid #48672F;
+    border-radius: 6px;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+</style>
+</dialog>
+
+
+    <!-- 計數顯示 -->
+    <div style="margin-left:auto;"><span id="loaded-count">0</span>/<span id="total-count">0</span></div>
+
+  </div>
+</div>
+
+<!-- 動態列表容器 -->
+<div class="word-list-flex" id="word-list"></div>
+
+<!-- 無限卷動sentinel -->
+<div id="scroll-sentinel" aria-hidden="true" style="height:1px;"></div>
+
+<!-- 新增單字Modal -->
+<dialog id="modal" class="modal" style="overflow:hidden;">
+  <div class="modal-card" style="max-width:720px;width:clamp(320px,92vw,720px);">
+    <h3>新增單字</h3>
+    <div class="modal-body">
+      <form id="form-add-word">
+        <!-- 單字/劍橋：桌面併排、小螢幕落行 -->
+        <div class="grid-2">
+          <label>單字
+            <input name="headword" required aria-required="true">
+          </label>
+          <label>辭典連結
+            <input name="cambridge_url" placeholder="https://dictionary.cambridge.org/dictionary/english/word">
+          </label>
+        </div>
+        <!-- 詞性：膠囊 -->
+        <fieldset class="fieldset">
+          <legend>詞性（可多選）</legend>
+          <div id="form-pos" class="pillset" role="group" aria-label="詞性">
+            <% (@pos_options || POS_OPTIONS || []).each_with_index do |p, i| %>
+              <% id = "pos-#{p}" %>
+              <input type="checkbox" id="<%= id %>" name="pos" value="<%= p %>" class="pillset__ctrl">
+              <label for="<%= id %>" class="pill" data-c="<%= (i%3)+1 %>"><%= p %></label>
+            <% end %>
+          </div>
+        </fieldset>
+
+        <!-- 分類：膠囊 -->
+        <fieldset class="fieldset">
+          <legend>分類（可多選）</legend>
+          <div id="form-cats" class="pillset" role="group" aria-label="分類">
+            <% Array(@categories).each_with_index do |c, i| %>
+              <% id = "cat-#{c["_id"]}" %>
+              <input type="checkbox" id="<%= id %>" name="category_ids" value="<%= c["_id"] %>" class="pillset__ctrl">
+              <label for="<%= id %>" class="pill" data-c="<%= (i%3)+1 %>"><%= c["name"] %></label>
+            <% end %>
+          </div>
+        </fieldset>
+
+        <label>中文解釋
+          <textarea name="definition_zh" rows="3" placeholder="中文解釋"></textarea>
+        </label>
+
+        <label>原文解釋
+          <textarea name="definition_en" rows="3" placeholder="English definition"></textarea>
+        </label>
+
+        <label>例句-1
+          <textarea name="example" rows="2" placeholder="英文例句"></textarea>
+        </label>
+
+        <label>例句-2
+          <textarea name="example2" rows="2" placeholder="第二句英文例句（可選）"></textarea>
+        </label>
+
+        <div class="actions" style="display:flex;gap:8px;justify-content:flex-end;">
+                      <button type="button" id="btn-close-modal" class="btn-ghost">取消</button>
+
+          <button type="submit" id="btn-submit-word" class="btn-primary">新增</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</dialog>
+
+<!-- 編輯單字 Modal -->
+<dialog id="word-edit-modal" class="modal">
+  <div class="modal-card">
+    <h3 id="word-edit-title">編輯單字</h3>
+    <div class="modal-body">
+      <form id="form-edit-word">
+        <input type="hidden" name="id" id="edit-id">
+
+        <div class="grid-2">
+          <label>單字
+            <input name="headword" id="edit-headword" required>
+          </label>
+          <label>辭典連結
+            <input name="cambridge_url" id="edit-cambridge">
+          </label>
+        </div>
+
+        <fieldset class="fieldset">
+          <legend>詞性（可多選）</legend>
+          <div id="edit-pos" class="pillset"></div>
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <legend>分類（可多選）</legend>
+          <div id="edit-cats" class="pillset"></div>
+        </fieldset>
+
+        <label>解釋（中文）
+          <textarea name="definition_zh" id="edit-zh" rows="3"></textarea>
+        </label>
+
+        <label>原文解釋
+          <textarea name="definition_en" id="edit-en" rows="3"></textarea>
+        </label>
+
+        <label>例句 1
+          <textarea name="example" id="edit-example" rows="2"></textarea>
+        </label>
+
+        <label>例句 2
+          <textarea name="example2" id="edit-example2" rows="2"></textarea>
+        </label>
+
+        <%# <label style="display:flex;align-items:center;gap:6px;">
+          <input type="checkbox" id="edit-remembered" name="remembered"> 標記為「已記住」
+        </label> %>
+
+        <div class="actions">
+          <button type="button" id="btn-close-edit" class="btn-ghost">取消</button>
+          <button type="submit" class="btn-primary">儲存</button>
+          
+        </div>
+      </form>
+    </div>
+  </div>
+</dialog>
+
+
+<!-- 單字詳情modal -->
+<dialog id="word-modal" class="modal">
+  <div class="modal-card" style="max-width:720px;width:clamp(320px,92vw,720px);background: none;box-shadow:none">
+    <div id="word-modal-body"></div>
+  </div>
+</dialog>
+<script src="/js/home.js"></script>
+
+<link rel="stylesheet" href="/css/chips.css">

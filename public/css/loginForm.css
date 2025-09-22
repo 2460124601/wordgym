@@ -1,0 +1,89 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    background: #FCFCFC;
+    border: 0.5px solid #48672F;
+    border-radius: 10px;
+}
+
+.login-card-content {
+    padding: 20px;
+}
+
+.login-card h2 {
+    text-align: center;
+    margin-bottom: 24px;
+    font-family: 'Volkhov', 'Chiron Hei HK';
+}
+
+.login-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* === 輸入框：底線＋無圓角 === */
+.login-card input {
+    width: 100%;
+    padding: 10px 2px;
+    border: none;
+    border-bottom: 1.5px solid #48672F;
+    border-radius: 0;
+    background: transparent;
+    color: #000;
+    outline: none;
+}
+
+.login-card input::placeholder {
+    color: #666;
+}
+
+.login-card input:focus {
+    border-bottom: 2px solid #2f4d1f;
+    box-shadow: none;
+}
+
+.login-card button[type="submit"] {
+    margin-top: 12px;
+    width: 100%;
+    background: #48672F;
+    color: #fff;
+    border-radius: 6px;
+    border: none;
+    padding: 10px 0;
+    font-size: 1em;
+    font-family: 'Libre Baskerville', 'jf-lanyangming', serif;
+    cursor: pointer;
+}
+
+/* 驗證碼 */
+.captcha-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.captcha-refresh {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.icon-sock {
+    display: block;
+}
+
+.error {
+    color: #b00020;
+    margin-bottom: 8px;
+    text-align: center;
+}

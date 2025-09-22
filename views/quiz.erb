@@ -1,0 +1,44 @@
+<div class="quiz-box">
+    <h1>抽考</h1>
+<div id="quiz-card" class="card" style="padding:16px; max-width:720px;">
+  <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+    <div id="q-word" style="font-size:28px; font-weight:700; flex:1;">...</div>
+    <button id="btn-speak" aria-label="發音"><img src="/icons/sound.svg" alt="發音" style="width:20px;height:20px;"></button>
+  </div>
+
+  <audio id="q-audio" preload="none"></audio>
+
+  <div id="q-options" style="display:grid; gap:8px;"></div>
+
+  <div id="q-result" style="margin-top:12px; display:none;">
+    <label><input id="mark-remembered" type="checkbox"> 標記為「已記住」</label>
+  </div>
+
+<%# 統計 %>
+<%# <div class="q-hud">
+    
+  <div class="q-hud__pill">已答 <span id="q-stats-total">0</span></div>
+  <div class="q-hud__pill"><img src="/icons/right.svg" alt="正確" style="width:20px;height:20px;"><span id="q-stats-correct">0</span></div>
+  <div class="q-hud__pill"><img src="/icons/wrong.svg" alt="錯誤" style="width:20px;height:20px;"><span id="q-stats-wrong">0</span></div>
+  <div class="q-hud__pill"><img src="/icons/timer.svg" alt="時間" style="width:20px;height:20px;"><span id="q-timer">00:00</span></div>
+  <button id="btn-reset-quiz" type="button" class="q-hud__reset">重置</button>
+</div> %>
+
+
+  <div style="margin-top:12px;text-align:right;">
+    <button id="btn-next">下一個</button>
+  </div>
+</div>
+</div>
+
+<script src="/js/quiz.js" defer></script>
+<style>
+    body{
+        height:calc(99vh);
+    }
+    .container{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+    }
+</style>

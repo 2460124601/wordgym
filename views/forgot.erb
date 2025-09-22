@@ -1,0 +1,12 @@
+<link rel="stylesheet" href="/css/loginForm.css">
+
+<h2>忘記密碼</h2>
+<form method="post" action="/forgot">
+  <input name="email" placeholder="你的 Email">
+  <div style="display:flex;align-items:center;gap:8px;">
+    <canvas id="captcha-canvas" width="110" height="36" style="border:1px solid #ccc;"></canvas>
+    <button type="button" id="captcha-refresh">換一張</button>
+    <input name="captcha" placeholder="請輸入驗證碼">
+  </div>
+  <button type="submit">寄送臨時密碼</button>
+</form>

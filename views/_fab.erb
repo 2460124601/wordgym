@@ -1,0 +1,37 @@
+<% is_home  = request.path_info == "/" %>
+<% is_word  = request.path_info.start_with?("/words/") %>
+<% show_act = is_home || is_word %>
+
+<div class="fab" id="fab">
+  <button class="fab-toggle" id="fab-toggle" type="button"aria-label="展開選單" aria-expanded="false">
+    <span class="i-burger" aria-hidden="true" style="width:100%;"><img src="/icons/new.svg" alt="新增" style="width:20px;height:20px;"></span>
+    <%# <span class="i-close"  aria-hidden="true"></span> %>
+  </button>
+
+  <nav class="fab-bar" id="fab-bar" aria-hidden="true">
+    <a href="/" class="fab-chip" title="前往首頁" aria-label="前往首頁"><img src="/icons/home.svg" alt="首頁" style="width:20px;height:20px;"></a>
+    <a href="/me" class="fab-chip" title="前往個人設定" aria-label="前往個人設定"><img src="/icons/user.svg" alt="個人設定" style="width:20px;height:20px;"></a>
+
+    <% if current_user && current_user["is_admin"] %>
+      <a href="/admin/users" class="fab-chip" title="前往管理員面板" aria-label="前往管理員面板"><img src="/icons/admin.svg" alt="管理員" style="width:20px;height:20px;"></a>
+    <% end %>
+
+    <% if show_act %>
+
+
+
+    <button type="button" id="btn-open-modal" class="fab-chip" title="新增單字" aria-label="新增單字"><img src="/icons/new.svg" alt="新增" style="width:20px;height:20px;"></button>
+
+      <a id="btn-quiz" href="/quiz" class="fab-chip" title="前往單字測驗" aria-label="前往單字測驗"><img src="/icons/quiz.svg" alt="測驗" style="width:20px;height:20px;"></a>
+    <% end %>
+        <% if logged_in? %>
+            <a href="/logout" class="fab-chip"  title="登出" aria-label="登出"><img src="/icons/logout.svg" alt="登出" style="width:20px;height:20px;"></a>
+
+        <% else %>
+        <% end %>
+
+    <button class="fab-close" type="button" aria-label="關閉"><img src="/icons/new.svg" alt="新增" style="width:20px;height:20px;"></button>
+  </nav>
+</div>
+
+

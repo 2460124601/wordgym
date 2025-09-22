@@ -1,0 +1,29 @@
+<h1><%= @word["headword"] %></h1>
+
+<p>
+  詞性：<%= Array(@word["pos"]).join(", ") %><br>
+  劍橋字典：<a href="<%= @word["cambridge_url"] %>" target="_blank">開啟</a>
+</p>
+
+<h3>解釋（中文）</h3>
+<p><%= @word["definition"] %></p>
+
+<h3>例句</h3>
+<ol>
+  <% if @word["example"].to_s.strip != "" %><li><%= @word["example"] %></li><% end %>
+  <% if @word["example2"].to_s.strip != "" %><li><%= @word["example2"] %></li><% end %>
+</ol>
+
+<h3>發音</h3>
+<audio controls src="/tts/google?text=<%= ERB::Util.url_encode(@word["headword"]) %>&tl=en"></audio>
+
+<p style="margin-top:16px;">
+  進度：<strong><%= @word["remembered"] ? "已記住" : "未記住" %></strong>
+</p>
+
+<p><a href="/">← 返回列表</a>　|　<a href="/quiz">去抽考</a></p>
+<p style="margin-top:12px;">
+  <a href="/words/<%= @word["_id"] %>/edit">編輯</a>
+  &nbsp;|&nbsp;
+  <a href="/" onclick="return confirm('回到列表？');">← 返回列表</a>
+</p>

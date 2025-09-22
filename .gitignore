@@ -1,0 +1,45 @@
+# Logs
+*.log
+log/
+
+# Temporary files
+tmp/
+*.tmp
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Ruby
+*.gem
+.bundle/
+vendor/bundle
+.byebug_history
+
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Coverage
+coverage/
+
+# Compiled source
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Others
+public/assets/
+public/packs/

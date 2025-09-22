@@ -1,0 +1,26 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+    env_file: .env
+    environment:
+      RACK_ENV: development
+      PORT: "8080"
+    volumes:
+      - .:/app
+      - bundle:/usr/local/bundle
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    command: [
+      "bash","-lc",
+      "bundle config unset deployment || true; bundle config unset without || true; bundle install &&
+       exec bundle exec rerun -b --dir . -- puma -C config/puma.rb"
+    ]
+
+volumes:
+  bundle:

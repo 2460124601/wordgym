@@ -1,0 +1,146 @@
+.wg-catbar {
+    display: flex;
+    flex-wrap: wrap;
+    height: auto;
+    align-items: center;
+    gap: 10px;
+    margin: 6px 0 2px;
+}
+
+.wg-catbar .wg-label {
+    color: #2f5b2a;
+}
+
+.wg-catbar .wg-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 4px;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+}
+
+.wg-catbar .wg-chips::-webkit-scrollbar {
+    height: 8px;
+}
+
+.wg-catbar .wg-chips::-webkit-scrollbar-thumb {
+    background: #ddd;
+    border-radius: 999px;
+}
+
+.wg-chip {
+    border: 0;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 15px;
+    line-height: 1;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+
+.wg-chip.is-active {
+    border: #000 0.5px solid;
+}
+
+.wg-c1 {
+    background: #CFE9BA;
+}
+
+.wg-c2 {
+    background: #F0D5BA;
+}
+
+.wg-c3 {
+    background: #BABEF0;
+}
+
+.wg-chip--add {
+    background: transparent;
+    border: #000 0.5px solid;
+    padding: 4px 12px;
+}
+
+.wg-chip__x {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: inline-grid;
+    place-items: center;
+    border: 1px solid rgba(0, 0, 0, .35);
+    background: #fff;
+    font-size: 12px;
+    line-height: 1;
+}
+
+.wg-chip__x:hover {
+    filter: brightness(.95);
+}
+.wg-modal {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    z-index: 1000;
+}
+
+.wg-modal[hidden] {
+    display: none;
+}
+
+.wg-modal__mask {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, .35);
+}
+
+.wg-modal__panel {
+    position: relative;
+    width: min(420px, 90vw);
+    background: #fff;
+    border-radius: 14px;
+    padding: 16px;
+}
+.wg-btn {
+    padding: 8px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.wg-btn--ghost {
+    background: #fff;
+    border: 1px solid #ddd;
+}
+
+.wg-btn--primary {
+    background: #2f5b2a;
+    color: #fff;
+    border: none;
+}
+
+.wg-cats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.wg-catopt {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+}
+
+.wg-catopt input {
+    accent-color: var(--primary);
+}
