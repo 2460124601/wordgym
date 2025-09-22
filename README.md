@@ -3,7 +3,7 @@
 
 ---
 
-## English
+## What is WORDGYM?
 
 G'day! Wordgym is an open-source vocab learning and management app, built with Sinatra and MongoDB.
 
@@ -72,7 +72,7 @@ MIT License
 
 ---
 
-## 中文版
+## 關於該專案
 
 Wordgym（沒錯是諧音梗 xD）是一個開源的單字學習與管理平台，基於 Sinatra 框架與 MongoDB。
 
@@ -133,4 +133,5 @@ https://wordgym.cc
 密碼：31Vkuqmo9ZZY
 
 ### 授權
+
 MIT License
